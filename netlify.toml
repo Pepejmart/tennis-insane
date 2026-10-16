@@ -4,6 +4,17 @@
 [functions]
   directory = "netlify/functions"
 
+# Cada sección de la app vive en su carpeta: /join hoy; /tournaments, /lessons… más adelante.
+[[redirects]]
+  from = "/join"
+  to = "/join/index.html"
+  status = 200
+
+[[redirects]]
+  from = "/"
+  to = "/join"
+  status = 302
+
 [[headers]]
   for = "/*"
   [headers.values]

@@ -81,7 +81,8 @@ export default async (req) => {
   const row = clean(b);
   if (!row) return json({ ok: false, error: 'invalid' }, 400);
 
-  const headers = { apikey: KEY, Authorization: `Bearer ${KEY}`, 'content-type': 'application/json', Prefer: 'return=minimal' };
+  // Clave nueva (sb_secret_…) solo va en apikey; la antigua service_role (JWT, empieza por eyJ) también como Bearer.
+  const headers = { apikey: KEY, ...(KEY.startsWith('eyJ') ? { Authorization: `Bearer ${KEY}` } : {}), 'content-type': 'application/json', Prefer: 'return=minimal' };
   const ins = await fetch(`${SUPABASE_URL}/rest/v1/altas`, { method: 'POST', headers, body: JSON.stringify(row) });
 
   if (ins.status === 409) {

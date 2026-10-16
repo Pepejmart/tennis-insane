@@ -18,7 +18,7 @@ export default async (req) => {
   };
   await fetch(`${SUPABASE_URL}/rest/v1/alta_eventos`, {
     method: 'POST',
-    headers: { apikey: KEY, Authorization: `Bearer ${KEY}`, 'content-type': 'application/json', Prefer: 'return=minimal' },
+    headers: { apikey: KEY, ...(KEY.startsWith('eyJ') ? { Authorization: `Bearer ${KEY}` } : {}), 'content-type': 'application/json', Prefer: 'return=minimal' },
     body: JSON.stringify(row)
   }).catch(() => {});
   return done();

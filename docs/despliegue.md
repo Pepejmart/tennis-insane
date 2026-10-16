@@ -1,15 +1,15 @@
 # Despliegue del alta (fase C)
 
-Estructura del repositorio: `web/` (la página), `netlify/functions/` (alta y evento), `supabase/schema.sql`, `netlify.toml`.
+Estructura del repositorio: `web/join/` (la página; cada sección futura tendrá su carpeta: `web/tournaments/`, `web/lessons/`), `netlify/functions/` (alta y evento), `supabase/schema.sql`, `netlify.toml`.
 Nada de claves en el repositorio ni en el HTML.
 
 ## 1. Supabase (5 min)
 1. Crear proyecto en región **UE** (Frankfurt).
 2. SQL Editor → pegar `supabase/schema.sql` → Run. Debe terminar sin errores.
-3. Project Settings → API: copiar **Project URL** y la clave **service_role** (secreta). La clave `anon` no se usa.
+3. Project Settings → API: copiar el **Project URL** (solo `https://<proyecto>.supabase.co`, sin `/rest/v1/`) y la clave **secreta** (`sb_secret_…`, o `service_role` en las claves antiguas). La clave pública (`publishable`/`anon`) no se usa. Las variables van en Netlify, nunca en un `.env` dentro del repositorio.
 
 ## 2. Cloudflare Turnstile (5 min)
-1. Crear un widget (modo «managed») para el dominio `*.netlify.app` y, más adelante, el subdominio de tennisinsane.com.
+1. Crear un widget (modo «managed») con el hostname exacto de tu sitio (`tu-sitio.netlify.app`) y, más adelante, añadir el subdominio de tennisinsane.com.
 2. Copiar la **site key** (pública) y la **secret key**.
 
 ## 3. Netlify (10 min)
@@ -49,3 +49,31 @@ Nada de claves en el repositorio ni en el HTML.
 6. **[sin respuesta]**: no hay red o la página se abrió como archivo local.
 
 Para ver la pantalla final sin servidor: `?demo=1`.
+
+## 7. Antes de abrir al público: lo legal y la limpieza
+**Marcadores a sustituir en `web/index.html`** (aviso de privacidad, en ES y en EN): `[NIF]`, `[EMAIL DE CONTACTO]`, `[PLAZO]` y `[LISTA DE ENCARGADOS]`. Al aprobarlo el gestor, quitar la línea de la etiqueta «Borrador / Draft» y cambiar `TERMS_VERSION` (por ejemplo `2026-11-v1`). Guardar el texto aprobado en `docs/consentimientos/<versión>.md`.
+
+**Preguntas para el gestor**
+1. Responsable (Jaime como autónomo): NIF y email de contacto.
+2. Base legal de cada finalidad (alta y comunidad, organización de eventos, estadística de edad, felicitación de cumpleaños, imagen, novedades).
+3. Plazo de conservación tras la baja.
+4. Encargados y transferencias: Supabase (UE), Netlify, Cloudflare (Turnstile), Google (Sheets, Apps Script, Gmail) y WhatsApp.
+5. Si se puede exigir la casilla de imagen para entrar o debe ser opcional.
+6. Si pedir la fecha de nacimiento completa se ajusta a los dos fines declarados.
+7. Si hace falta registro de actividades de tratamiento.
+
+**Limpieza de pruebas** (SQL Editor de Supabase, solo antes del lanzamiento y solo con datos ficticios):
+```sql
+delete from public.altas           where email like '%@example.test';
+delete from public.altas_intentos  where email like '%@example.test';
+delete from public.alta_eventos;   -- solo si todo el tráfico hasta ahora ha sido de prueba
+select count(*) from public.altas; -- debe dar 0 si nadie real se ha dado de alta
+```
+
+## 8. Dominio: app.tennisinsane.com y tennisinsane.com/join
+- La app vive en el subdominio `app.tennisinsane.com` (Netlify). La web de Jaime (WordPress) no cambia de contenido ni de direcciones.
+- `tennisinsane.com/join` es solo una redirección (302, pasando los parámetros UTM) hacia `https://app.tennisinsane.com/join`.
+- DNS: se **añade** un único registro CNAME `app` → `<tu-sitio>.netlify.app`. No se tocan los registros existentes.
+- Turnstile: añadir `app.tennisinsane.com` a los hostnames del widget.
+- Cada sección nueva (`/tournaments`, `/lessons`) = carpeta nueva en `web/` + su redirección en WordPress. Antes de crear una, comprobar que ese slug no existe ya en WordPress.
+- En el rediseño de la web, se mueve todo bajo tennisinsane.com y se quitan las redirecciones: las URLs públicas no cambian.
