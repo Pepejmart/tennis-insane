@@ -338,7 +338,7 @@ pre.debug{margin:16px 0 0;padding:12px;background:var(--card);border:1px solid v
     <pre class="debug" id="debug" hidden></pre>
   </section>
 
-  <p class="foot" data-i18n="foot"></p>
+  <p class="foot" id="foot" data-i18n="foot" hidden></p>
 </div>
 
 <div class="toast" id="toast" role="status" hidden></div>
@@ -784,6 +784,7 @@ if (TURNSTILE_SITEKEY && !DEMO){
   sc.async = true; document.head.appendChild(sc);
 }
 $('#logoDone').src = $('#logoTop').src;   // misma imagen, incrustada una sola vez
+$('#foot').hidden = !DEMO;   // el aviso de maqueta solo se ve con ?demo=1 o abierto como archivo
 applyLang();
 track('step_view', 1);
 })();
