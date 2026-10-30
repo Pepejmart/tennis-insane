@@ -733,7 +733,7 @@ function toast(msg){ const el = $('#toast'); el.textContent = msg; el.hidden = f
 /* ====== Eventos ====== */
 $('#f').addEventListener('submit', e => { e.preventDefault(); if (step < TOTAL){ if (validate(step)){ track('step_complete', step); go(step + 1); } } else onSend(); });
 $$('[data-back]').forEach(b => b.addEventListener('click', () => go(step - 1)));
-$$('.lang button').forEach(b => b.addEventListener('click', () => { lang = b.dataset.lang; applyLang(); }));
+$$('.lang button').forEach(b => b.addEventListener('click', () => { lang = b.dataset.lang; try { localStorage.setItem('ti_lang', lang); } catch (e) {} applyLang(); }));
 
 document.addEventListener('click', e => {
   const chip = e.target.closest('.chip'); if (!chip) return;
@@ -776,7 +776,8 @@ $('#home').addEventListener('click', e => { if (DEMO){ e.preventDefault(); toast
 
 /* ====== Inicio: idioma del navegador (o ?lang=es|en) ====== */
 const forced = qs.get('lang');
-lang = (forced === 'es' || forced === 'en') ? forced : ((navigator.language || 'es').toLowerCase().startsWith('es') ? 'es' : 'en');
+let saved = null; try { saved = localStorage.getItem('ti_lang'); } catch (e) {}   // mismo idioma que eligió en la portada
+lang = (forced === 'es' || forced === 'en') ? forced : ((saved === 'es' || saved === 'en') ? saved : ((navigator.language || 'es').toLowerCase().startsWith('es') ? 'es' : 'en'));
 if (TURNSTILE_SITEKEY && !DEMO){
   window.onTurnstile = () => window.turnstile.render('#ts', { sitekey: TURNSTILE_SITEKEY, theme: 'dark', language: lang });
   const sc = document.createElement('script');

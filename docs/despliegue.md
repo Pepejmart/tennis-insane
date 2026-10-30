@@ -125,10 +125,17 @@ delete from public.inscripciones_torneo           where email like '%@example.te
 - Login con código por email y reporte de resultados (después del sorteo).
 
 ## 10. Portada y menú (web/index.html)
-- La portada vive en `/` (ya no redirige a `/join`). Cabecera, menú, pie e idioma son comunes y se editan en un solo sitio: `web/assets/site.js` (lista `NAV`) y `web/assets/site.css`. El logo está en `web/assets/logo.webp`.
+- La portada vive en `/` (ya no redirige a `/join`). Cabecera, menú, pie e idioma son comunes y se editan en un solo sitio: `web/assets/site.js` (lista `NAV`) y `web/assets/nav.css`; `web/assets/site.css` solo lleva la portada y las páginas en construcción. `/tournaments` usa la misma cabecera y menú. El logo está en `web/assets/logo.webp`.
 - Menú: Social Tennis Events (`/social-events`), Tournaments (`/tournaments`), Lessons (`/lessons`), Shop (`https://tennisinsane.com/tennis-clothing/`, pestaña nueva), About (`/about`) y Contact (`/contact`). Social Tennis Events, Lessons, About y Contact son páginas «en construcción».
 - La portada es una sola pantalla: logo arriba a la izquierda, menú arriba a la derecha, frase en el centro y dos botones: «Join the WhatsApp community» → `/join` y «Follow us on Instagram» → `https://www.instagram.com/tennisinsane/`. Fondo negro hasta tener vídeo: subir `web/assets/hero.mp4` (y `hero.jpg` como póster) y descomentar el bloque `<video>` de `web/index.html`. Mejor menos de 5 MB, sin audio y en bucle.
 - El interruptor ES/EN está dentro del menú.
 - Idioma: se elige por el del navegador y se recuerda con `localStorage` (`ti_lang`). Cada texto lleva dos `span` (`lang="en"` y `lang="es"`).
 - `noindex` en todas las páginas hasta la revisión de febrero, para no competir con la web de Jaime en Google.
 - Nueva sección = carpeta en `web/` + su regla en `netlify.toml` + su entrada en `NAV`. `npm test` comprueba que el menú apunta a donde debe.
+
+**Accesibilidad y compartir (30/10/2026)**
+- Con el menú abierto, el resto de la página queda `inert` y el foco da la vuelta (logo, botón, menú). Esc cierra y devuelve el foco al botón.
+- El idioma se comparte entre portada, `/tournaments` y `/join` con `localStorage` (`ti_lang`). En `/tournaments`, el cambio desde el menú se aplica al momento (evento `ti:lang`).
+- En el formulario del torneo, errores y ayudas van enlazados a su campo (`aria-describedby`); al cambiar de paso o de vista el foco pasa al título nuevo; bordes de campos a 4,6:1.
+- `web/assets/icon.png` (favicon) y `web/assets/og.jpg` (vista previa al compartir en WhatsApp o Instagram). **Al migrar a `app.tennisinsane.com`, cambiar `https://tennisinsane.netlify.app` por el dominio nuevo en las etiquetas `og:image` de `web/index.html` y `web/tournaments/index.html`.**
+- Pendiente cuando haya vídeo de fondo: botón de pausa (WCAG 2.2.2) y comprobar el contraste del texto sobre el vídeo real. Pendiente en `/join` (no tocado salvo el idioma): barra de progreso sin nombre, sin `main` y contenido fuera de landmarks.
