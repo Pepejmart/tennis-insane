@@ -11,6 +11,11 @@
   status = 200
 
 [[redirects]]
+  from = "/tournaments"
+  to = "/tournaments/index.html"
+  status = 200
+
+[[redirects]]
   from = "/"
   to = "/join"
   status = 302
