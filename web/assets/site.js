@@ -3,7 +3,7 @@
    localStorage («ti_lang») y se avisa a la página con el evento «ti:lang». */
 (function () {
   var IG = 'https://www.instagram.com/tennisinsane/';
-  var SHOP = 'https://tennisinsane.com/tennis-clothing/';
+  var SHOP = 'https://tennisinsane.com/';
   var NAV = [
     { href: '/social-events', en: 'Social Tennis Events', es: 'Eventos de tenis social' },
     { href: '/tournaments',   en: 'Tournaments',          es: 'Torneos' },
@@ -59,13 +59,16 @@
       '<nav aria-label="Footer"><a href="' + IG + '" target="_blank" rel="noopener noreferrer">Instagram' + NEWTAB + '</a>' +
       '<a href="/join">WhatsApp</a><a href="/contact">' + t('Contact', 'Contacto') + '</a></nav></div>';
 
+    var backdrop = document.createElement('div');
+    backdrop.className = 'menu-backdrop'; backdrop.hidden = true;
+    document.body.prepend(backdrop);
     document.body.prepend(menu);
     document.body.prepend(header);
     if (!document.body.hasAttribute('data-no-footer')) document.body.appendChild(footer);
 
     var btn = header.querySelector('.menu-btn'), brand = header.querySelector('.brand');
     function setMenu(open) {
-      menu.hidden = !open; btn.setAttribute('aria-expanded', String(open));
+      menu.hidden = !open; backdrop.hidden = !open; btn.setAttribute('aria-expanded', String(open));
       document.body.classList.toggle('menu-open', open);
       // Mientras el menú está abierto, el resto de la página no recibe foco ni se lee.
       Array.prototype.forEach.call(document.querySelectorAll('main, .site-footer'), function (el) { el.inert = open; });
@@ -73,6 +76,7 @@
     }
     btn.addEventListener('click', function () { setMenu(menu.hidden); });
     menu.addEventListener('click', function (e) { if (e.target.closest('a')) setMenu(false); });
+    backdrop.addEventListener('click', function () { setMenu(false); });
     document.addEventListener('keydown', function (e) {
       if (menu.hidden) return;
       if (e.key === 'Escape') { setMenu(false); return; }

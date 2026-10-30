@@ -11,7 +11,7 @@ const ESPERADO = [
   ['Social Tennis Events', '/social-events'],
   ['Tournaments', '/tournaments'],
   ['Lessons', '/lessons'],
-  ['Shop', 'https://tennisinsane.com/tennis-clothing/'],
+  ['Shop', 'https://tennisinsane.com/'],
   ['About', '/about'],
   ['Contact', '/contact'],
 ];
@@ -49,7 +49,7 @@ test('las páginas en construcción dicen que están en construcción', () => {
 
 test('la portada es solo logo y menú, frase y dos botones; sin pie ni más secciones', () => {
   assert.match(inicio, /<body class="home" data-no-footer>/);
-  assert.equal((inicio.match(/class="btn-pill"/g) || []).length, 2);
+  assert.equal((inicio.match(/class="btn btn-(primary|white)"/g) || []).length, 2);
   assert.doesNotMatch(inicio, /<section|<footer/);
 });
 
@@ -77,4 +77,23 @@ test('existen favicon e imagen para compartir', () => {
   assert.ok(existsSync('web/assets/icon.png'));
   assert.ok(existsSync('web/assets/og.jpg'));
   assert.match(readFileSync('web/index.html', 'utf8'), /og:image/);
+});
+
+test('toda clase que usan la portada y las páginas en construcción tiene su estilo (evita botones «sin estilo»)', () => {
+  const css = readFileSync('web/assets/nav.css', 'utf8') + readFileSync('web/assets/site.css', 'utf8');
+  const sinEstilo = new Set();
+  for (const f of ['web/index.html', 'web/about/index.html', 'web/lessons/index.html', 'web/contact/index.html', 'web/social-events/index.html']) {
+    const h = readFileSync(f, 'utf8');
+    for (const m of h.matchAll(/class="([^"]+)"/g)) for (const c of m[1].split(/\s+/)) {
+      if (!new RegExp(`\\.${c.replace(/-/g, '\\-')}(?![\\w-])`).test(css)) sinEstilo.add(`${f}: .${c}`);
+    }
+  }
+  assert.deepEqual([...sinEstilo], []);
+});
+
+test('las variables --n-* de nav.css están definidas en :root (los botones fuera de la cabecera también las usan)', () => {
+  const css = readFileSync('web/assets/nav.css', 'utf8');
+  const raiz = css.match(/:root\{([^}]*)\}/)[1];
+  const usadas = new Set([...css.matchAll(/var\((--n-[\w-]+)\)/g)].map((m) => m[1]));
+  for (const v of usadas) assert.match(raiz, new RegExp(`${v}:`), `${v} no está en :root`);
 });
