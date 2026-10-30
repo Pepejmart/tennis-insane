@@ -127,7 +127,8 @@ delete from public.inscripciones_torneo           where email like '%@example.te
 ## 10. Portada y menú (web/index.html)
 - La portada vive en `/` (ya no redirige a `/join`). Cabecera, menú, pie e idioma son comunes y se editan en un solo sitio: `web/assets/site.js` (lista `NAV`) y `web/assets/site.css`. El logo está en `web/assets/logo.webp`.
 - Menú: Social Tennis Events (`/social-events`), Tournaments (`/tournaments`), Lessons (`/lessons`), Shop (`https://tennisinsane.com/tennis-clothing/`, pestaña nueva), About (`/about`) y Contact (`/contact`). Social Tennis Events, Lessons, About y Contact son páginas «en construcción».
-- Botones: «Join the WhatsApp community» → `/join` y «Follow us on Instagram» → `https://www.instagram.com/tennisinsane/`.
+- La portada es una sola pantalla: logo arriba a la izquierda, menú arriba a la derecha, frase en el centro y dos botones: «Join the WhatsApp community» → `/join` y «Follow us on Instagram» → `https://www.instagram.com/tennisinsane/`. Fondo negro hasta tener vídeo: subir `web/assets/hero.mp4` (y `hero.jpg` como póster) y descomentar el bloque `<video>` de `web/index.html`. Mejor menos de 5 MB, sin audio y en bucle.
+- El interruptor ES/EN está dentro del menú.
 - Idioma: se elige por el del navegador y se recuerda con `localStorage` (`ti_lang`). Cada texto lleva dos `span` (`lang="en"` y `lang="es"`).
 - `noindex` en todas las páginas hasta la revisión de febrero, para no competir con la web de Jaime en Google.
 - Nueva sección = carpeta en `web/` + su regla en `netlify.toml` + su entrada en `NAV`. `npm test` comprueba que el menú apunta a donde debe.

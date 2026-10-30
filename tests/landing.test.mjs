@@ -46,3 +46,9 @@ test('las páginas en construcción dicen que están en construcción', () => {
     assert.match(h, /Under construction/); assert.match(h, /En construcción/);
   }
 });
+
+test('la portada es solo logo y menú, frase y dos botones; sin pie ni más secciones', () => {
+  assert.match(inicio, /<body class="home" data-no-footer>/);
+  assert.equal((inicio.match(/class="btn-pill"/g) || []).length, 2);
+  assert.doesNotMatch(inicio, /<section|<footer/);
+});

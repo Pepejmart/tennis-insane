@@ -30,21 +30,19 @@
     header.className = 'site-header';
     header.innerHTML =
       '<div class="wrap">' +
-        '<a class="brand" href="/">Tennis Insane</a>' +
-        '<div class="hdr-right">' +
-          '<div class="lang" role="group" aria-label="Idioma / Language">' +
-            '<button type="button" data-l="en">EN</button><button type="button" data-l="es">ES</button></div>' +
-          '<button type="button" class="menu-btn" aria-expanded="false" aria-controls="menu">' +
-            '<span class="bars" aria-hidden="true"><i></i><i></i></span>' +
-            '<span class="when-closed">' + t('Menu', 'Menú') + '</span><span class="when-open">' + t('Close', 'Cerrar') + '</span>' +
-          '</button>' +
-        '</div>' +
+        '<a class="brand" href="/" aria-label="Tennis Insane"><img src="/assets/logo.webp" width="640" height="357" alt="Tennis Insane"></a>' +
+        '<button type="button" class="menu-btn" aria-expanded="false" aria-controls="menu">' +
+          '<span class="bars" aria-hidden="true"><i></i><i></i></span>' +
+          '<span class="when-closed">' + t('Menu', 'Menú') + '</span><span class="when-open">' + t('Close', 'Cerrar') + '</span>' +
+        '</button>' +
       '</div>';
 
     var menu = document.createElement('div');
     menu.id = 'menu'; menu.className = 'menu'; menu.hidden = true;
     menu.innerHTML =
-      '<div class="wrap"><nav aria-label="Menu"><ul>' + items + '</ul></nav>' +
+      '<div class="wrap">' +
+      '<div class="lang" role="group" aria-label="Idioma / Language"><button type="button" data-l="en">EN</button><button type="button" data-l="es">ES</button></div>' +
+      '<nav aria-label="Menu"><ul>' + items + '</ul></nav>' +
       '<div class="menu-cta">' +
         '<a class="btn btn-primary" href="/join">' + t('Join the WhatsApp community', 'Únete a la comunidad de WhatsApp') + '</a>' +
         '<a class="btn btn-ghost" href="' + IG + '" target="_blank" rel="noopener noreferrer">' + t('Follow us on Instagram', 'Síguenos en Instagram') + '</a>' +
@@ -59,7 +57,7 @@
 
     document.body.prepend(menu);
     document.body.prepend(header);
-    document.body.appendChild(footer);
+    if (!document.body.hasAttribute('data-no-footer')) document.body.appendChild(footer);
 
     var btn = header.querySelector('.menu-btn');
     function setMenu(open) {
@@ -73,9 +71,9 @@
 
     function paintLang() {
       document.documentElement.lang = lang;
-      header.querySelectorAll('[data-l]').forEach(function (b) { b.setAttribute('aria-pressed', String(b.getAttribute('data-l') === lang)); });
+      document.querySelectorAll('[data-l]').forEach(function (b) { b.setAttribute('aria-pressed', String(b.getAttribute('data-l') === lang)); });
     }
-    header.querySelectorAll('[data-l]').forEach(function (b) {
+    document.querySelectorAll('[data-l]').forEach(function (b) {
       b.addEventListener('click', function () { lang = b.getAttribute('data-l'); save(lang); paintLang(); });
     });
     paintLang();
