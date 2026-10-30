@@ -5,7 +5,7 @@ const GENEROS = ['Hombre / Male', 'Mujer / Female', 'Otro / Other', 'Prefiero no
 const NIVELES = ['Iniciación / Beginner', 'Intermedio 2.5-3.0', 'Intermedio-alto 3.5', 'Avanzado 4.0+', 'No estoy seguro / Not sure'];
 const IDIOMAS = ['Español', 'English', 'Ambos / Both'];
 const CANALES = ['Instagram', 'Meetup', 'Web', 'Un amigo / Word of mouth', 'Otro / Other'];
-const INTERESES = ['tenis_social', 'padel_social', 'torneos', 'clases', 'buscar_partido', 'comunidad'];
+const INTERESES = ['tenis_social', 'torneos', 'clases', 'buscar_partido', 'comunidad'];
 const ZONAS = ['Centro', 'Arganzuela', 'Retiro', 'Salamanca', 'Chamartín', 'Tetuán', 'Chamberí', 'Fuencarral-El Pardo',
   'Moncloa-Aravaca', 'Latina', 'Carabanchel', 'Usera', 'Puente de Vallecas', 'Moratalaz', 'Ciudad Lineal', 'Hortaleza',
   'Villaverde', 'Villa de Vallecas', 'Vicálvaro', 'San Blas-Canillejas', 'Barajas',

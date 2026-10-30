@@ -97,3 +97,25 @@ test('las variables --n-* de nav.css están definidas en :root (los botones fuer
   const usadas = new Set([...css.matchAll(/var\((--n-[\w-]+)\)/g)].map((m) => m[1]));
   for (const v of usadas) assert.match(raiz, new RegExp(`${v}:`), `${v} no está en :root`);
 });
+
+test('la portada lleva el titular y el subtítulo acordados, en inglés y en español', () => {
+  assert.match(inicio, /Madrid’s International Tennis Community/);
+  assert.match(inicio, /Play fun games, meet people from all over the world, and enjoy the after-tennis\./);
+  assert.match(inicio, /La comunidad internacional de tenis en Madrid/);
+  assert.match(inicio, /Juega formatos divertidos, conoce gente de todo el mundo y disfruta del tercer tiempo\./);
+});
+
+test('el alta ya no ofrece pádel social y «volver al inicio» lleva a nuestra portada', () => {
+  const join = readFileSync('web/join/index.html', 'utf8');
+  assert.doesNotMatch(join, /padel_social/);
+  assert.doesNotMatch(readFileSync('netlify/functions/alta.mjs', 'utf8'), /padel_social/);
+  assert.match(join, /<a class="home" id="home" href="\/"/);
+});
+
+test('la lista de países del torneo es la del alta: mismos países y los mismos más comunes arriba', () => {
+  const join = readFileSync('web/join/index.html', 'utf8'), torneo = readFileSync('web/tournaments/index.html', 'utf8');
+  const isoAlta = join.match(/const DIAL_RAW = "([^"]+)"/)[1].split(',').map((x) => x.split(':')[0]);
+  const isoTorneo = torneo.match(/const ISO = "([^"]+)"/)[1].split(' ');
+  assert.deepEqual([...isoTorneo].sort(), [...isoAlta].sort());
+  assert.equal(torneo.match(/const PIN = (\[[^\]]+\])/)[1], join.match(/const PIN = (\[[^\]]+\])/)[1]);
+});
