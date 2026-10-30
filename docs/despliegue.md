@@ -123,3 +123,11 @@ delete from public.inscripciones_torneo           where email like '%@example.te
 - Texto del compromiso y aviso de privacidad aprobados por el gestor (guardar versiones en `docs/consentimientos/`).
 - Si alguien paga después de que su sesión caduque no puede ocurrir (Stripe no deja pagar una sesión caducada), pero un fallo de Stripe tras reservar plaza puede alargar la retención unos minutos. Un pago duplicado se anota en `notas` como `PAGO DUPLICADO`.
 - Login con código por email y reporte de resultados (después del sorteo).
+
+## 10. Portada y menú (web/index.html)
+- La portada vive en `/` (ya no redirige a `/join`). Cabecera, menú, pie e idioma son comunes y se editan en un solo sitio: `web/assets/site.js` (lista `NAV`) y `web/assets/site.css`. El logo está en `web/assets/logo.webp`.
+- Menú: Social Tennis Events (`/social-events`), Tournaments (`/tournaments`), Lessons (`/lessons`), Shop (`https://tennisinsane.com/tennis-clothing/`, pestaña nueva), About (`/about`) y Contact (`/contact`). Social Tennis Events, Lessons, About y Contact son páginas «en construcción».
+- Botones: «Join the WhatsApp community» → `/join` y «Follow us on Instagram» → `https://www.instagram.com/tennisinsane/`.
+- Idioma: se elige por el del navegador y se recuerda con `localStorage` (`ti_lang`). Cada texto lleva dos `span` (`lang="en"` y `lang="es"`).
+- `noindex` en todas las páginas hasta la revisión de febrero, para no competir con la web de Jaime en Google.
+- Nueva sección = carpeta en `web/` + su regla en `netlify.toml` + su entrada en `NAV`. `npm test` comprueba que el menú apunta a donde debe.
