@@ -49,7 +49,7 @@ test('las páginas en construcción dicen que están en construcción', () => {
 
 test('la portada es solo logo y menú, frase y dos botones; sin pie ni más secciones', () => {
   assert.match(inicio, /<body class="home" data-no-footer>/);
-  assert.equal((inicio.match(/class="btn btn-(primary|white)"/g) || []).length, 2);
+  assert.equal((inicio.match(/class="nbtn nbtn-(primary|white)"/g) || []).length, 2);
   assert.doesNotMatch(inicio, /<section|<footer/);
 });
 
@@ -118,4 +118,19 @@ test('la lista de países del torneo es la del alta: mismos países y los mismos
   const isoTorneo = torneo.match(/const ISO = "([^"]+)"/)[1].split(' ');
   assert.deepEqual([...isoTorneo].sort(), [...isoAlta].sort());
   assert.equal(torneo.match(/const PIN = (\[[^\]]+\])/)[1], join.match(/const PIN = (\[[^\]]+\])/)[1]);
+});
+
+test('/join usa la cabecera y el menú compartidos, tiene <main> y ya no lleva logo ni idioma propios', () => {
+  const join = readFileSync('web/join/index.html', 'utf8');
+  assert.match(join, /href="\/assets\/nav\.css"/);
+  assert.match(join, /src="\/assets\/site\.js"/);
+  assert.match(join, /<main class="wrap">/);
+  assert.doesNotMatch(join, /logoTop|<header class="top">/);
+  assert.match(join, /ti:lang/);
+});
+
+test('los estilos compartidos llevan prefijo propio para no chocar con las clases de /join', () => {
+  const nav = readFileSync('web/assets/nav.css', 'utf8');
+  assert.doesNotMatch(nav, /(^|\n)\.(btn|brand|lang)\b/);
+  assert.match(nav, /\.nbtn\{/); assert.match(nav, /\.nav-brand\b/); assert.match(nav, /\.nav-lang\b/);
 });

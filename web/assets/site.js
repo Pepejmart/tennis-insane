@@ -16,6 +16,8 @@
   function stored() { try { return localStorage.getItem(KEY); } catch (e) { return null; } }
   function save(v) { try { localStorage.setItem(KEY, v); } catch (e) {} }
   var lang = stored();
+  var q = new URLSearchParams(location.search).get('lang');
+  if (q === 'es' || q === 'en') lang = q;
   if (lang !== 'es' && lang !== 'en') lang = String(navigator.language || 'en').toLowerCase().indexOf('es') === 0 ? 'es' : 'en';
   document.documentElement.lang = lang;   // antes de pintar: sin parpadeo de idioma
   window.TI_LANG = lang;                  // para las páginas que traducen por su cuenta
@@ -34,7 +36,7 @@
     header.className = 'site-header';
     header.innerHTML =
       '<div class="hdr-inner">' +
-        '<a class="brand" href="/" aria-label="Tennis Insane"><img src="/assets/logo.webp" width="640" height="357" alt="Tennis Insane"></a>' +
+        '<a class="nav-brand" href="/" aria-label="Tennis Insane"><img src="/assets/logo.webp" width="640" height="357" alt="Tennis Insane"></a>' +
         '<button type="button" class="menu-btn" aria-expanded="false" aria-controls="menu">' +
           '<span class="bars" aria-hidden="true"><i></i><i></i></span>' +
           '<span class="when-closed">' + t('Menu', 'Menú') + '</span><span class="when-open">' + t('Close', 'Cerrar') + '</span>' +
@@ -45,11 +47,11 @@
     menu.id = 'menu'; menu.className = 'menu'; menu.hidden = true; menu.setAttribute('aria-label', 'Menu');
     menu.innerHTML =
       '<div class="menu-inner">' +
-      '<div class="lang" role="group" aria-label="Idioma / Language"><button type="button" data-l="en">EN</button><button type="button" data-l="es">ES</button></div>' +
+      '<div class="nav-lang" role="group" aria-label="Idioma / Language"><button type="button" data-l="en">EN</button><button type="button" data-l="es">ES</button></div>' +
       '<nav aria-label="Menu"><ul>' + items + '</ul></nav>' +
       '<div class="menu-cta">' +
-        '<a class="btn btn-primary" href="/join">' + t('Join the WhatsApp community', 'Únete a la comunidad de WhatsApp') + '</a>' +
-        '<a class="btn btn-ghost" href="' + IG + '" target="_blank" rel="noopener noreferrer">' + t('Follow us on Instagram', 'Síguenos en Instagram') + NEWTAB + '</a>' +
+        '<a class="nbtn nbtn-primary" href="/join">' + t('Join the WhatsApp community', 'Únete a la comunidad de WhatsApp') + '</a>' +
+        '<a class="nbtn nbtn-ghost" href="' + IG + '" target="_blank" rel="noopener noreferrer">' + t('Follow us on Instagram', 'Síguenos en Instagram') + NEWTAB + '</a>' +
       '</div></div>';
 
     var footer = document.createElement('footer');
@@ -66,7 +68,7 @@
     document.body.prepend(header);
     if (!document.body.hasAttribute('data-no-footer')) document.body.appendChild(footer);
 
-    var btn = header.querySelector('.menu-btn'), brand = header.querySelector('.brand');
+    var btn = header.querySelector('.menu-btn'), brand = header.querySelector('.nav-brand');
     function setMenu(open) {
       menu.hidden = !open; backdrop.hidden = !open; btn.setAttribute('aria-expanded', String(open));
       document.body.classList.toggle('menu-open', open);

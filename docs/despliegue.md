@@ -139,3 +139,5 @@ delete from public.inscripciones_torneo           where email like '%@example.te
 - En el formulario del torneo, errores y ayudas van enlazados a su campo (`aria-describedby`); al cambiar de paso o de vista el foco pasa al título nuevo; bordes de campos a 4,6:1.
 - `web/assets/icon.png` (favicon) y `web/assets/og.jpg` (vista previa al compartir en WhatsApp o Instagram). **Al migrar a `app.tennisinsane.com`, cambiar `https://tennisinsane.netlify.app` por el dominio nuevo en las etiquetas `og:image` de `web/index.html` y `web/tournaments/index.html`.**
 - Pendiente cuando haya vídeo de fondo: botón de pausa (WCAG 2.2.2) y comprobar el contraste del texto sobre el vídeo real. Pendiente en `/join` (no tocado salvo el idioma): barra de progreso sin nombre, sin `main` y contenido fuera de landmarks.
+
+- `/join` también usa la cabecera y el menú compartidos (logo clicable hacia `/`, menú y selector ES/EN dentro del menú). Las clases compartidas llevan prefijo (`nbtn`, `nav-brand`, `nav-lang`) para no chocar con las de `/join`. El idioma del alta cambia al momento con el evento `ti:lang`, y `?lang=es|en` en cualquier página tiene prioridad sobre lo guardado.
