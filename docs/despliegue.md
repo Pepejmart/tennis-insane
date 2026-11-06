@@ -20,7 +20,7 @@ Nada de claves en el repositorio ni en el HTML.
    - `SUPABASE_SERVICE_ROLE_KEY`
    - `TURNSTILE_SECRET`
    - `WHATSAPP_COMMUNITY_URL` (el enlace de la comunidad)
-4. En `web/index.html`, poner la site key en `TURNSTILE_SITEKEY` (es pública) y hacer commit.
+4. La site key (pública) ya está puesta en `TURNSTILE_SITEKEY` de `web/join/index.html` y `web/tournaments/index.html` (widget con el hostname `community.tennisinsane.com`). La clave secreta va solo en `TURNSTILE_SECRET` de Netlify, y hay que añadirla justo antes del despliegue que lleva la site key: si existe sin que la página muestre el widget, todos los envíos se rechazan.
 5. Esperar al despliegue y abrir la URL de previsualización.
 
 ## 4. Comprobaciones antes de abrir al público
@@ -74,7 +74,7 @@ select count(*) from public.altas; -- debe dar 0 si nadie real se ha dado de alt
 - La app vive en el subdominio `app.tennisinsane.com` (Netlify). La web de Jaime (WordPress) no cambia de contenido ni de direcciones.
 - `tennisinsane.com/join` es solo una redirección (302, pasando los parámetros UTM) hacia `https://app.tennisinsane.com/join`.
 - DNS: se **añade** un único registro CNAME `app` → `<tu-sitio>.netlify.app`. No se tocan los registros existentes.
-- Turnstile: añadir `app.tennisinsane.com` a los hostnames del widget.
+- Turnstile: el widget ya tiene `community.tennisinsane.com`; si se usa otro subdominio, añadirlo a los hostnames.
 - Cada sección nueva (`/tournaments`, `/lessons`) = carpeta nueva en `web/` + su redirección en WordPress. Antes de crear una, comprobar que ese slug no existe ya en WordPress.
 - En el rediseño de la web, se mueve todo bajo tennisinsane.com y se quitan las redirecciones: las URLs públicas no cambian.
 
@@ -119,7 +119,7 @@ delete from public.inscripciones_torneo           where email like '%@example.te
 ```
 
 **Pendiente**
-- Turnstile en la página (`TURNSTILE_SITEKEY`) y el hostname en el widget.
+- Añadir `TURNSTILE_SECRET` en Netlify justo antes de subir el paquete con la site key, y comprobar que el widget aparece en el alta y en el torneo.
 - Texto del compromiso y aviso de privacidad aprobados por el gestor (guardar versiones en `docs/consentimientos/`).
 - Si alguien paga después de que su sesión caduque no puede ocurrir (Stripe no deja pagar una sesión caducada), pero un fallo de Stripe tras reservar plaza puede alargar la retención unos minutos. Un pago duplicado se anota en `notas` como `PAGO DUPLICADO`.
 - Login con código por email y reporte de resultados (después del sorteo).
@@ -150,4 +150,4 @@ delete from public.inscripciones_torneo           where email like '%@example.te
 - **Pie de página:** enlaces a Privacidad y Descargo en las páginas con pie.
 - **Decisiones:** sin NIF en la política (valorar un aviso legal aparte), conservación de 12 meses tras la última participación, grabación como condición para participar.
 - **Tarea recurrente:** una vez al año, borrar o anonimizar a quien lleve más de 12 meses sin participar (la política lo promete) y conservar solo los datos de pago el tiempo que exija la normativa.
-- **Pendiente:** clave pública de Turnstile en el alta y en torneos, y texto del compromiso y reglamento del torneo (hoy «v0-borrador»).
+- **Pendiente:** `TURNSTILE_SECRET` en Netlify (la site key ya está en las páginas) y texto del compromiso y reglamento del torneo (hoy «v0-borrador»).

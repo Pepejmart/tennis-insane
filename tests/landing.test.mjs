@@ -189,3 +189,9 @@ test('las tipografías están alojadas en el sitio: ninguna página ni la CSP ll
   }
   assert.doesNotMatch(readFileSync('netlify.toml', 'utf8'), /fonts\.(googleapis|gstatic)\.com/);
 });
+
+test('Turnstile: la site key (pública) está en el alta y en el torneo', () => {
+  for (const f of ['web/join/index.html', 'web/tournaments/index.html']) {
+    assert.match(readFileSync(f, 'utf8'), /const TURNSTILE_SITEKEY = '0x4AAAAAAF24oxFEcilBIFMP';/, f);
+  }
+});

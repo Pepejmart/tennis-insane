@@ -327,7 +327,7 @@ const NTRP_URL = 'https://www.usta.com/content/dam/usta/pdfs/10013_experience_pl
 const TERMS_VERSION = '2026-11-v1';   // versión de los textos de /privacy y /disclaimer (docs/consentimientos)
 const API_URL = '/api/alta';          // función de Netlify; vacío o ?demo=1 = modo maqueta (no envía nada)
 const EVENT_URL = '/api/evento';
-const TURNSTILE_SITEKEY = '';         // clave PÚBLICA de Cloudflare Turnstile (vacía = sin captcha)
+const TURNSTILE_SITEKEY = '0x4AAAAAAF24oxFEcilBIFMP';         // clave PÚBLICA de Cloudflare Turnstile (vacía = sin captcha)
 const DEMO = !API_URL || new URLSearchParams(location.search).has('demo') || location.protocol === 'file:';   // abierto como archivo local no hay servidor
 const TOTAL = 5;
 const DEBUG = /[?&]debug\b/.test(location.search);   // ?debug=1 muestra el JSON y los eventos al final
