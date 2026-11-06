@@ -1,5 +1,11 @@
 /* web/assets/nav.css · cabecera, menú y pie compartidos (portada, páginas en construcción y /tournaments).
    No define estilos globales de la página: solo lo suyo. */
+/* Tipografías alojadas en el propio sitio: ninguna llamada a Google Fonts (ver web/assets/fonts/LICENSE.txt) */
+@font-face{font-family:'Bricolage Grotesque';font-style:normal;font-weight:200 800;font-display:swap;src:url('/assets/fonts/bricolage-grotesque-wght.woff2') format('woff2')}
+@font-face{font-family:'DM Sans';font-style:normal;font-weight:400;font-display:swap;src:url('/assets/fonts/dm-sans-400.woff2') format('woff2')}
+@font-face{font-family:'DM Sans';font-style:normal;font-weight:500;font-display:swap;src:url('/assets/fonts/dm-sans-500.woff2') format('woff2')}
+@font-face{font-family:'DM Sans';font-style:normal;font-weight:600;font-display:swap;src:url('/assets/fonts/dm-sans-600.woff2') format('woff2')}
+@font-face{font-family:'DM Sans';font-style:normal;font-weight:700;font-display:swap;src:url('/assets/fonts/dm-sans-700.woff2') format('woff2')}
 :root{--n-bg:#0A0A0A;--n-line:#2C2C2C;--n-text:#F5F5F5;--n-muted:#BDBDBD;--n-magenta:#E9004C;--n-magenta-text:#FF3180;
   --n-display:'Bricolage Grotesque','Arial Black',system-ui,sans-serif;--n-body:'DM Sans',system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;
   }

@@ -251,3 +251,5 @@ begin
     revoke execute on function public.rls_auto_enable() from public, anon, authenticated;
   end if;
 end $$;
+
+-- Después de este archivo, ejecutar legal.sql (añade las columnas y los parámetros del descargo y la grabación).

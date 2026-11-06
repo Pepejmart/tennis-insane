@@ -8,13 +8,10 @@
 <meta name="robots" content="noindex">
 <title>Torneo de Invierno · Tennis Insane</title>
 <meta name="description" content="Inscripción al Torneo de Invierno de Tennis Insane en Madrid. Del 15/11 al 17/01.">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
 <meta property="og:type" content="website">
 <meta property="og:title" content="Torneo de Invierno · Tennis Insane">
 <meta property="og:description" content="Inscripción al Torneo de Invierno de Tennis Insane en Madrid. Del 15/11 al 17/01.">
-<meta property="og:image" content="https://tennisinsane.netlify.app/assets/og.jpg">
+<meta property="og:image" content="https://community.tennisinsane.com/assets/og.jpg">
 <meta name="twitter:card" content="summary_large_image">
 <link rel="icon" href="/assets/icon.png" type="image/png">
 <link rel="apple-touch-icon" href="/assets/icon.png">
@@ -104,6 +101,7 @@
   .check input{width:22px;height:22px;margin:2px 0 0;accent-color:var(--magenta)}
   .check label{font-weight:400;font-size:14.5px;margin:0;color:var(--muted)}
   .check label b{color:var(--text);font-weight:500}
+  .check label a{color:var(--magenta-text);text-underline-offset:3px}
   .pend{color:var(--warn)}
 
   .btns{display:flex;gap:10px;margin-top:22px}
@@ -223,8 +221,18 @@
           </div>
           <div class="err" data-err="compromiso" style="margin:-8px 0 12px"></div>
           <div class="check">
+            <input id="descargo" name="descargo" type="checkbox" required>
+            <label for="descargo" data-i-html="c3h">Acepto el <a href="/disclaimer" target="_blank" rel="noopener">Descargo de responsabilidad de participación</a>.</label>
+          </div>
+          <div class="err" data-err="descargo" style="margin:-8px 0 12px"></div>
+          <div class="check">
+            <input id="imagen" name="imagen" type="checkbox" required>
+            <label for="imagen" data-i="c4t">Acepto que me graben en los eventos y que se publiquen imágenes para contenido de Tennis Insane.</label>
+          </div>
+          <div class="err" data-err="imagen" style="margin:-8px 0 12px"></div>
+          <div class="check">
             <input id="privacidad" name="privacidad" type="checkbox" required>
-            <label for="privacidad"><span data-i="c2t">Acepto el aviso de privacidad.</span> <span class="pend" data-i="c2p">[enlace pendiente de revisión legal]</span></label>
+            <label for="privacidad" data-i-html="c2h">He leído y acepto la <a href="/privacy" target="_blank" rel="noopener">Política de privacidad</a>.</label>
           </div>
           <div class="err" data-err="privacidad" style="margin:-8px 0 12px"></div>
           <div id="ts"></div>
@@ -312,10 +320,12 @@ const T = {
   l_pais:'País de origen',ph_pais:'Elige tu país',
   l_ntrp:'Tu nivel NTRP',guide:'¿No estás seguro? Mira la guía NTRP ↗',newtab:' (se abre en otra pestaña)',unsure:'No lo sé',ntrpPick:'Elige el que más se parezca a tu juego.',
   c1b:'Me comprometo a jugar mis partidos.',c1t:'Dentro de los plazos y avisando con tiempo si no puedo. El reglamento completo se publicará antes del sorteo.',
-  c2t:'Acepto el aviso de privacidad.',c2p:'[enlace pendiente de revisión legal]',
+  c2h:'He leído y acepto la <a href="/privacy" target="_blank" rel="noopener">Política de privacidad</a>.',
+  c3h:'Acepto el <a href="/disclaimer" target="_blank" rel="noopener">Descargo de responsabilidad de participación</a>.',
+  c4t:'Acepto que me graben en los eventos y que se publiquen imágenes para contenido de Tennis Insane.',
   back:'Atrás',continue:'Continuar',submitOpen:'Ir al pago ({p})',submitWait:'Apuntarme a la reserva',sending:'Enviando…',
   e_nombre:'Escribe tu nombre y apellido.',e_email:'Escribe un email válido.',e_wa:'Escribe solo números (6 a 12 dígitos).',e_pais:'Elige tu país.',
-  e_ntrp:'Elige tu nivel.',e_compromiso:'Necesitamos que aceptes el compromiso para inscribirte.',e_privacidad:'Acepta el aviso de privacidad para continuar.',
+  e_ntrp:'Elige tu nivel.',e_compromiso:'Necesitamos que aceptes el compromiso para inscribirte.',e_privacidad:'Acepta la política de privacidad para continuar.',e_descargo:'Necesitamos que aceptes el descargo de participación.',e_imagen:'Necesitamos que aceptes la grabación en los eventos.',
   err_gen:'No hemos podido enviar tu inscripción. Inténtalo de nuevo en un momento.',
   err_captcha:'Completa la verificación anti-spam para continuar.',
   err_pago:'No hemos podido abrir el pago. Tu plaza queda retenida unos minutos: pulsa de nuevo para reintentar.',
@@ -347,10 +357,12 @@ const T = {
   l_pais:'Country of origin',ph_pais:'Choose your country',
   l_ntrp:'Your NTRP level',guide:'Not sure? See the NTRP guide ↗',newtab:' (opens in a new tab)',unsure:'Not sure',ntrpPick:'Pick the one closest to your game.',
   c1b:'I commit to playing my matches.',c1t:'Within the deadlines, and letting you know in advance if I cannot. The full rules will be published before the draw.',
-  c2t:'I accept the privacy notice.',c2p:'[link pending legal review]',
+  c2h:'I have read and accept the <a href="/privacy" target="_blank" rel="noopener">Privacy Policy</a>.',
+  c3h:'I accept the <a href="/disclaimer" target="_blank" rel="noopener">Participation Disclaimer</a>.',
+  c4t:'I agree to be filmed at events and for images to be published as Tennis Insane content.',
   back:'Back',continue:'Continue',submitOpen:'Go to payment ({p})',submitWait:'Join the waiting list',sending:'Sending…',
   e_nombre:'Enter your full name.',e_email:'Enter a valid email.',e_wa:'Numbers only (6 to 12 digits).',e_pais:'Choose your country.',
-  e_ntrp:'Choose your level.',e_compromiso:'You need to accept the commitment to sign up.',e_privacidad:'Accept the privacy notice to continue.',
+  e_ntrp:'Choose your level.',e_compromiso:'You need to accept the commitment to sign up.',e_privacidad:'Accept the privacy policy to continue.',e_descargo:'You need to accept the participation disclaimer.',e_imagen:'You need to accept being filmed at events.',
   err_gen:'We could not send your sign-up. Please try again in a moment.',
   err_captcha:'Complete the anti-spam check to continue.',
   err_pago:'We could not open the payment. Your spot is held for a few minutes: press again to retry.',
@@ -437,9 +449,11 @@ const RULES = {
   pais:   f => /^[A-Z]{2}$/.test(f.pais.value),
   ntrp:   () => !!document.querySelector('input[name=ntrp]:checked'),
   compromiso: f => f.compromiso.checked,
+  descargo: f => f.descargo.checked,
+  imagen: f => f.imagen.checked,
   privacidad: f => f.privacidad.checked
 };
-const STEP_FIELDS = {1:['nombre','email','wa','pais'], 2:['ntrp','compromiso','privacidad']};
+const STEP_FIELDS = {1:['nombre','email','wa','pais'], 2:['ntrp','compromiso','descargo','imagen','privacidad']};
 function validate(fields){
   const f = $('#form'); let first = null;
   fields.forEach(k => {
@@ -484,7 +498,7 @@ $('#form').addEventListener('submit', async e => {
   const ntrp = Number(document.querySelector('input[name=ntrp]:checked').value) || null;   // null = no lo sé
   const payload = {
     email: f.email.value, nombre: f.nombre.value, whatsapp: '+' + f.prefijo.value + f.wa.value, pais: f.pais.value,
-    ntrp, idioma: lang, compromiso: true, privacidad: true, website: f.website.value, turnstile: token
+    ntrp, idioma: lang, compromiso: true, descargo: true, imagen: true, privacidad: true, website: f.website.value, turnstile: token
   };
   let out;
   try { out = await enviar(payload); } catch (_) { out = { status: 0, j: {} }; }

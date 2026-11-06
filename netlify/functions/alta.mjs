@@ -43,12 +43,12 @@ export function clean(b, now = new Date()) {
   if (!GENEROS.includes(b.genero) || !NIVELES.includes(b.nivel) || !IDIOMAS.includes(b.idioma_pref)) return null;
   if (zona && !ZONAS.includes(zona)) return null;
   if (canal && !CANALES.includes(canal)) return null;
-  if (b.consent_privacidad !== true || b.consent_imagen !== true) return null;
+  if (b.consent_privacidad !== true || b.consent_imagen !== true || b.consent_descargo !== true) return null;
   if (!['es', 'en'].includes(b.idioma_form)) return null;
   return {
     email, nombre, apellido, whatsapp, pais, fecha_nacimiento: fecha,
     genero: b.genero, nivel: b.nivel, idioma_pref: b.idioma_pref, zona, intereses, canal,
-    consent_privacidad: true, consent_imagen: true, novedades: b.novedades === true,
+    consent_privacidad: true, consent_imagen: true, consent_descargo: true, novedades: b.novedades === true,
     consent_version: str(b.consent_version, 40) || 'desconocida', idioma_form: b.idioma_form,
     utm_source: optStr(b.utm_source, 100), utm_medium: optStr(b.utm_medium, 100), utm_campaign: optStr(b.utm_campaign, 100)
   };

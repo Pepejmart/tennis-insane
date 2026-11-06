@@ -141,3 +141,13 @@ delete from public.inscripciones_torneo           where email like '%@example.te
 - Pendiente cuando haya vídeo de fondo: botón de pausa (WCAG 2.2.2) y comprobar el contraste del texto sobre el vídeo real. Pendiente en `/join` (no tocado salvo el idioma): barra de progreso sin nombre, sin `main` y contenido fuera de landmarks.
 
 - `/join` también usa la cabecera y el menú compartidos (logo clicable hacia `/`, menú y selector ES/EN dentro del menú). Las clases compartidas llevan prefijo (`nbtn`, `nav-brand`, `nav-lang`) para no chocar con las de `/join`. El idioma del alta cambia al momento con el evento `ti:lang`, y `?lang=es|en` en cualquier página tiene prioridad sobre lo guardado.
+
+## 11. Textos legales v1 (2026-11-v1)
+- **Páginas:** `/privacy` (política de privacidad) y `/disclaimer` (descargo de participación), en inglés y español, generadas con el texto de `docs/consentimientos/2026-11-v1.md`. Cualquier cambio de texto sube la versión (nuevo archivo en `docs/consentimientos/`, nueva constante `TERMS_VERSION` en `/join` y variables `PRIVACIDAD_VERSION` y `DESCARGO_VERSION` en Netlify, o su valor por defecto en `netlify/functions/inscripcion-torneo.mjs`).
+- **Alta (`/join`):** casillas obligatorias de política de privacidad, descargo y grabación de imágenes; opcional la de novedades. Se guarda `consent_version` y `consent_descargo`. El aviso desplegable con la etiqueta «Borrador» ya no existe.
+- **Torneo (`/tournaments`):** compromiso, descargo, grabación y política de privacidad, todas obligatorias. Se guardan `compromiso_version`, `privacidad_version`, `descargo_version` e `imagen_aceptada`.
+- **Base de datos:** `supabase/legal.sql` (aditivo y repetible; se ejecuta después de `schema.sql` y `torneos.sql`). Ya aplicado en producción el 02/11/2026; es compatible con la versión anterior del código.
+- **Pie de página:** enlaces a Privacidad y Descargo en las páginas con pie.
+- **Decisiones:** sin NIF en la política (valorar un aviso legal aparte), conservación de 12 meses tras la última participación, grabación como condición para participar.
+- **Tarea recurrente:** una vez al año, borrar o anonimizar a quien lleve más de 12 meses sin participar (la política lo promete) y conservar solo los datos de pago el tiempo que exija la normativa.
+- **Pendiente:** clave pública de Turnstile en el alta y en torneos, y texto del compromiso y reglamento del torneo (hoy «v0-borrador»).

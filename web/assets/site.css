@@ -33,3 +33,13 @@ h1{margin:0;text-wrap:balance;font-family:var(--f-display);font-weight:800;font-
 .lead{font-size:clamp(18px,2.4vw,22px);color:var(--muted);max-width:44ch;margin:0}
 
 @media (prefers-reduced-motion:reduce){*{transition:none!important}.hero-bg video{display:none}}
+
+/* Páginas legales (/privacy y /disclaimer) */
+.legal{max-width:760px;padding-top:12px;padding-bottom:72px}
+.legal h1{font-size:clamp(30px,6vw,46px);text-transform:none;letter-spacing:-.03em;line-height:1.05;margin:0 0 6px}
+.legal .ver{color:var(--muted);font-size:14px;margin:0 0 22px}
+.legal h2{font:700 clamp(19px,3.4vw,23px)/1.2 var(--f-display);letter-spacing:-.01em;margin:30px 0 8px}
+.legal p,.legal li{color:#E6E6E6;line-height:1.65}
+.legal ul,.legal ol{padding-left:22px;margin:8px 0}
+.legal li{margin:6px 0}
+.legal a{color:var(--magenta-text)}

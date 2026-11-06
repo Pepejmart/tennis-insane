@@ -16,7 +16,7 @@ delete process.env.TURNSTILE_SECRET;
 
 const valido = {
   email: ' Ana@Example.test ', nombre: 'Ana  Prueba', whatsapp: '+34 600123456', pais: 'es',
-  ntrp: 3.5, idioma: 'es', compromiso: true, privacidad: true,
+  ntrp: 3.5, idioma: 'es', compromiso: true, descargo: true, imagen: true, privacidad: true,
 };
 
 /** Simulador de fetch: rutas = [[regex sobre "METODO url", (url, opts) => cuerpo | {status, cuerpo}]] */
@@ -210,4 +210,18 @@ test('torneo-info: abierta, reserva y cerrada', async () => {
   assert.equal((await (await info(get())).json()).estado, 'reserva');
   simular([[/GET .*\/torneos\?/, () => torneo({ inscripcion_cierra: pasado })], [/GET .*inscripciones_torneo\?/, () => []]]);
   assert.equal((await (await info(get())).json()).estado, 'cerrada');
+});
+
+test('el torneo exige descargo, grabación y privacidad, además del compromiso', () => {
+  assert.deepEqual(validarInscripcion({ ...valido, descargo: false, imagen: false, privacidad: false }).errores.sort(), ['descargo', 'imagen', 'privacidad']);
+  assert.deepEqual(validarInscripcion({ ...valido, descargo: undefined }).errores, ['descargo']);
+});
+
+test('la inscripción guarda la versión del descargo y la aceptación de la grabación', async () => {
+  const llamadas = simular([[/rpc\/inscribir_torneo/, () => [{ r_estado: 'reserva', r_referencia: 'TI-TO2-ABCDE', r_nuevo: true }]]]);
+  await inscripcion(post(valido));
+  const rpc = JSON.parse(llamadas.find((l) => l.url.includes('rpc/inscribir_torneo')).cuerpo);
+  assert.equal(rpc.p_descargo_version, '2026-11-v1');
+  assert.equal(rpc.p_imagen, true);
+  assert.equal(rpc.p_privacidad_version, '2026-11-v1');
 });

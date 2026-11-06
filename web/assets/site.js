@@ -59,7 +59,8 @@
     footer.innerHTML =
       '<div class="ftr-inner"><span>© ' + new Date().getFullYear() + ' Tennis Insane · Madrid</span>' +
       '<nav aria-label="Footer"><a href="' + IG + '" target="_blank" rel="noopener noreferrer">Instagram' + NEWTAB + '</a>' +
-      '<a href="/join">WhatsApp</a><a href="/contact">' + t('Contact', 'Contacto') + '</a></nav></div>';
+      '<a href="/join">WhatsApp</a><a href="/contact">' + t('Contact', 'Contacto') + '</a>' +
+      '<a href="/privacy">' + t('Privacy', 'Privacidad') + '</a><a href="/disclaimer">' + t('Disclaimer', 'Descargo') + '</a></nav></div>';
 
     var backdrop = document.createElement('div');
     backdrop.className = 'menu-backdrop'; backdrop.hidden = true;

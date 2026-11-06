@@ -7,9 +7,6 @@
 <meta name="color-scheme" content="dark">
 <meta name="robots" content="noindex">
 <title>Únete a Tennis Insane</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@800&family=DM+Sans:wght@400;600;700&display=swap" rel="stylesheet">
 <link rel="icon" href="/assets/icon.png" type="image/png">
 <link rel="stylesheet" href="/assets/nav.css">
 <script src="/assets/site.js"></script>
@@ -108,16 +105,9 @@ select.in{
 .check input:checked::after{content:"";width:6px;height:12px;border:solid #fff;border-width:0 3px 3px 0;transform:translate(0,-1px) rotate(45deg)}
 .check input:focus-visible{outline:3px solid var(--magenta-claro);outline-offset:2px}
 .check span{font-size:15px}
+.check a{color:var(--magenta-claro);text-underline-offset:3px}
 .check small{display:block;color:var(--muted);font-size:13px;margin-top:2px}
 
-details.policy{margin:16px 0 6px;background:var(--card);border:1px solid var(--line);border-radius:var(--radius)}
-details.policy summary{padding:16px;font:700 15px var(--f-body);cursor:pointer;list-style:none;display:flex;justify-content:space-between;align-items:center;gap:10px}
-details.policy summary::-webkit-details-marker{display:none}
-details.policy summary::after{content:"+";font-size:22px;line-height:1;color:var(--muted)}
-details.policy[open] summary::after{content:"\2212"}
-.policy-body{max-height:260px;overflow:auto;padding:0 16px 16px;font-size:14px;color:#D9D9D9}
-.policy-body p{margin:0 0 10px}
-.badge{display:inline-block;padding:2px 9px;border-radius:999px;background:var(--dorado);color:#0A0A0A;font:700 12px var(--f-body)}
 
 /* botones */
 .actions{display:flex;gap:10px;margin-top:30px}
@@ -294,13 +284,10 @@ pre.debug{margin:16px 0 0;padding:12px;background:var(--card);border:1px solid v
       <h2 tabindex="-1" data-i18n="s5"></h2>
       <p class="sub" data-i18n="s5sub"></p>
 
-      <details class="policy">
-        <summary><span data-i18n="policyTitle"></span></summary>
-        <div class="policy-body" id="policy"></div>
-      </details>
-
-      <label class="check"><input type="checkbox" id="c1"><span data-i18n="c1"></span></label>
+      <label class="check"><input type="checkbox" id="c1"><span data-i18n-html="c1"></span></label>
       <p class="err" id="err-c1" role="alert" hidden></p>
+      <label class="check"><input type="checkbox" id="cd"><span data-i18n-html="cd"></span></label>
+      <p class="err" id="err-cd" role="alert" hidden></p>
       <label class="check"><input type="checkbox" id="c2"><span data-i18n="c2"></span></label>
       <p class="err" id="err-c2" role="alert" hidden></p>
       <label class="check"><input type="checkbox" id="c3"><span><span data-i18n="c3"></span><small data-i18n="c3small"></small></span></label>
@@ -337,7 +324,7 @@ pre.debug{margin:16px 0 0;padding:12px;background:var(--card);border:1px solid v
 
 /* ====== Ajustes de la maqueta ====== */
 const NTRP_URL = 'https://www.usta.com/content/dam/usta/pdfs/10013_experience_player_ntrp_characteristics1%20(2).pdf';   // cuadro NTRP (USTA)
-const TERMS_VERSION = '2026-10-borrador';
+const TERMS_VERSION = '2026-11-v1';   // versión de los textos de /privacy y /disclaimer (docs/consentimientos)
 const API_URL = '/api/alta';          // función de Netlify; vacío o ?demo=1 = modo maqueta (no envía nada)
 const EVENT_URL = '/api/evento';
 const TURNSTILE_SITEKEY = '';         // clave PÚBLICA de Cloudflare Turnstile (vacía = sin captcha)
@@ -401,22 +388,6 @@ const ZONA_OTRA = 'Otra zona / Fuera de Madrid / Other area / Outside Madrid';
 const ZONA_NS = "No sé / I don't know";
 
 /* ====== Textos ES / EN ====== */
-const POLICY_ES = `
-<p><span class="badge">Borrador</span> Pendiente de revisión por el gestor antes de publicar.</p>
-<p><b>Responsable.</b> Jaime Pérez, [NIF] · [EMAIL DE CONTACTO].</p>
-<p><b>Para qué usamos tus datos.</b> (1) Gestionar tu alta y tu entrada en la comunidad de WhatsApp. (2) Organizar los eventos según tu nivel, zona y género. (3) Calcular estadísticas agregadas de edad de la comunidad y felicitarte en tu cumpleaños, con tu fecha de nacimiento. (4) Grabar y publicar imágenes de los eventos, si lo aceptas. (5) Enviarte novedades y eventos, solo si marcas la casilla opcional.</p>
-<p><b>Base legal.</b> Tu consentimiento, que puedes retirar cuando quieras.</p>
-<p><b>Conservación.</b> Mientras formes parte de la comunidad y [PLAZO] después.</p>
-<p><b>Destinatarios.</b> Proveedores tecnológicos que alojan los datos [LISTA DE ENCARGADOS]. No los cedemos a terceros para otros fines.</p>
-<p><b>Tus derechos.</b> Acceso, rectificación, supresión, oposición, limitación y portabilidad, escribiendo a [EMAIL DE CONTACTO]. También puedes reclamar ante la Agencia Española de Protección de Datos.</p>`;
-const POLICY_EN = `
-<p><span class="badge">Draft</span> Pending review by our advisor before publishing.</p>
-<p><b>Controller.</b> Jaime Pérez, [TAX ID] · [CONTACT EMAIL].</p>
-<p><b>What we use your data for.</b> (1) Managing your sign-up and your access to the WhatsApp community. (2) Organising events by your level, area and gender. (3) Calculating aggregate age statistics for the community and wishing you a happy birthday, using your date of birth. (4) Filming and publishing event images, if you agree. (5) Sending you news and events, only if you tick the optional box.</p>
-<p><b>Legal basis.</b> Your consent, which you can withdraw at any time.</p>
-<p><b>Retention.</b> While you are part of the community and [PERIOD] afterwards.</p>
-<p><b>Recipients.</b> Technology providers that host the data [LIST OF PROCESSORS]. We do not share it with third parties for other purposes.</p>
-<p><b>Your rights.</b> Access, rectification, erasure, objection, restriction and portability, by writing to [CONTACT EMAIL]. You can also complain to the Spanish Data Protection Agency (AEPD).</p>`;
 
 const T = {
   es: {
@@ -437,9 +408,9 @@ const T = {
     s4:'Qué buscas', s4sub:'Así te avisamos de lo que te interesa.',
     interests:'¿Qué te interesa?', how:'¿Cómo nos conociste?',
     s5:'Privacidad', s5sub:'Último paso. Pedimos solo lo que usamos.',
-    policyTitle:'Aviso de privacidad',
-    c1:'He leído y acepto el Aviso de privacidad.',
-    c2:'Acepto que me graben en los eventos para contenido de Tennis Insane.',
+    c1:'He leído y acepto la <a href="/privacy" target="_blank" rel="noopener">Política de privacidad</a>.',
+    cd:'Acepto el <a href="/disclaimer" target="_blank" rel="noopener">Descargo de responsabilidad de participación</a>.',
+    c2:'Acepto que me graben en los eventos y que se publiquen imágenes para contenido de Tennis Insane.',
     c3:'Quiero recibir novedades y eventos de Tennis Insane por WhatsApp.', c3small:'Opcional. Puedes darte de baja cuando quieras.',
     back:'Atrás', next:'Continuar', send:'Completar alta', sending:'Enviando…',
     req:'Este campo es obligatorio.', email:'Revisa el email: parece incompleto.',
@@ -473,9 +444,9 @@ const T = {
     s4:'What you\u2019re after', s4sub:"So we can tell you about what interests you.",
     interests:'What are you interested in?', how:'How did you find us?',
     s5:'Privacy', s5sub:'Last step. We only ask for what we use.',
-    policyTitle:'Privacy notice',
-    c1:'I have read and accept the Privacy notice.',
-    c2:'I agree to be filmed at events for Tennis Insane content.',
+    c1:'I have read and accept the <a href="/privacy" target="_blank" rel="noopener">Privacy Policy</a>.',
+    cd:'I accept the <a href="/disclaimer" target="_blank" rel="noopener">Participation Disclaimer</a>.',
+    c2:'I agree to be filmed at events and for images to be published as Tennis Insane content.',
     c3:'I\u2019d like to receive news and events from Tennis Insane on WhatsApp.', c3small:'Optional. You can opt out at any time.',
     back:'Back', next:'Continue', send:'Complete sign-up', sending:'Sending…',
     req:'This field is required.', email:'Check your email: it looks incomplete.',
@@ -570,8 +541,8 @@ function applyLang(){
   document.documentElement.lang = lang;
   document.title = t('docTitle');
   $$('[data-i18n]').forEach(el => el.textContent = t(el.dataset.i18n));
+  $$('[data-i18n-html]').forEach(el => el.innerHTML = t(el.dataset.i18nHtml));   // textos con enlace (política y descargo)
   $$('[data-i18n-ph]').forEach(el => el.placeholder = t(el.dataset.i18nPh));
-  $('#policy').innerHTML = lang === 'es' ? POLICY_ES : POLICY_EN;
   buildSelects(); renderChips(); updateProgress();
   $$('.err').forEach(p => { p.hidden = true; p.textContent = ''; });
   $$('.invalid').forEach(el => el.classList.remove('invalid'));
@@ -651,8 +622,9 @@ function validate(n){
     if (!S.idioma) add('idioma', 'pick', '#idioma button');
   }
   if (n === 5){
-    ['c1','c2'].forEach(x => setErr(x, null));
+    ['c1','cd','c2'].forEach(x => setErr(x, null));
     if (!$('#c1').checked) add('c1', 'consentReq');
+    if (!$('#cd').checked) add('cd', 'consentReq');
     if (!$('#c2').checked) add('c2', 'consentReq');
   }
   errs.forEach(e => setErr(e.name, e.key, e.sel));
@@ -671,7 +643,7 @@ function payload(){
     fecha_nacimiento: `${val('yy')}-${pad(val('mm'),2)}-${pad(val('dd'),2)}`,
     genero: S.genero, nivel: S.nivel, idioma_pref: S.idioma,
     zona: $('#zona').value || null, intereses: S.intereses.slice(), canal: S.canal || null,
-    consent_privacidad: true, consent_imagen: true, novedades: $('#c3').checked,
+    consent_privacidad: true, consent_imagen: true, consent_descargo: true, novedades: $('#c3').checked,
     consent_version: TERMS_VERSION, idioma_form: lang,
     utm_source: qs.get('utm_source'), utm_medium: qs.get('utm_medium'), utm_campaign: qs.get('utm_campaign'),
     website: $('#hp').value                                     // honeypot

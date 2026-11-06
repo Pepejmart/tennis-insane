@@ -31,6 +31,8 @@ export function validarInscripcion(b = {}) {
     if (NTRP_VALIDOS.has(n)) ntrp = n; else errores.push('ntrp');
   }
   if (b.compromiso !== true) errores.push('compromiso');
+  if (b.descargo !== true) errores.push('descargo');
+  if (b.imagen !== true) errores.push('imagen');
   if (b.privacidad !== true) errores.push('privacidad');
   if (errores.length) return { errores };
   return { datos: { email, nombre, whatsapp, pais, ntrp, idioma: b.idioma === 'en' ? 'en' : 'es' } };

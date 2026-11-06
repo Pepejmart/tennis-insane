@@ -7,7 +7,7 @@ const base = () => ({
   email: ' Prueba@Example.test ', nombre: 'Test', apellido: 'Persona', whatsapp: '+34600000000', pais: 'mx',
   fecha_nacimiento: '1990-05-10', genero: 'Mujer / Female', nivel: 'Intermedio 2.5-3.0', idioma_pref: 'Ambos / Both',
   zona: "No sé / I don't know", intereses: ['clases', 'comunidad', 'clases', 'otra_cosa'], canal: 'Instagram',
-  consent_privacidad: true, consent_imagen: true, novedades: false, consent_version: 'x', idioma_form: 'es'
+  consent_privacidad: true, consent_imagen: true, consent_descargo: true, novedades: false, consent_version: 'x', idioma_form: 'es'
 });
 const now = new Date('2026-10-15T12:00:00Z');
 
@@ -25,6 +25,9 @@ test('cumple 18 mañana: rechazada; hoy: aceptada', () => {
 });
 test('WhatsApp sin formato internacional: rechazado', () => assert.equal(clean({ ...base(), whatsapp: '600000000' }, now), null));
 test('sin consentimiento de imagen: rechazada', () => assert.equal(clean({ ...base(), consent_imagen: false }, now), null));
+test('sin aceptar el descargo de participación: rechazada', () => assert.equal(clean({ ...base(), consent_descargo: false }, now), null));
+test('sin la clave del descargo (formulario antiguo): rechazada', () => { const b = base(); delete b.consent_descargo; assert.equal(clean(b, now), null); });
+test('alta válida guarda la aceptación del descargo', () => assert.equal(clean(base(), now).consent_descargo, true));
 test('género vacío: rechazada (es obligatorio)', () => assert.equal(clean({ ...base(), genero: '' }, now), null));
 test('zona o canal fuera de lista: rechazada', () => {
   assert.equal(clean({ ...base(), zona: 'Narnia' }, now), null);
